@@ -26,7 +26,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="瓦片最小级别" prop="minLevel">
-          <el-select v-model="form.minLevel" placeholder="请选择瓦片最小级别">
+          <el-select v-model="form.minLevel" placeholder="请选择瓦片最小级别" @change="initMap">
             <el-option v-for="index in levelLen" :label="index" :value="index" :key="index"></el-option>
           </el-select>
         </el-form-item>
@@ -90,11 +90,10 @@ export default {
       map:null,
       levelLen:19,
       point:{},
-      zoom:15,
       type:'',
       form:{
           threads :  1000,
-          ak: 'syRCKICa5EimeW6hyK2TaKEehaUrudiE',
+          ak: '',//日均量不要超过2000
           seckey: 'YTCl0WlaqaWIR+AqW6atCE/W6tc7C6MnTskgcKfgq+E=,HiMMnx_9vYRX1aFqWLchiAvA0Cu7zt2f5HzYMc5GBwy4q1QwFby_P7-3qGzSaPW_-X1oDf264ADLY99R_BUOB9yW05mJygpkAE4adVDoucbPVJ0dEedd27YoQzJeciCcSEs7j-gSzJmHrCa5OVQXxiW2Z3LwRDAg6vCZrGzS5Vfc7chUZpN-vOYONL4d8UUw',
           path :  './tiles',
           ext :  'png',
@@ -120,7 +119,7 @@ export default {
         const that = this
         BMap = window.BMap
         this.map = new BMap.Map("MapHolder", {enableMapClick: false});
-        this.map.centerAndZoom('厦门',that.zoom)
+        this.map.centerAndZoom('厦门',that.form.minLevel)
         this.map.setMapStyle({styleJson:mapstyle})
         this.map.addEventListener('click',(c)=>{
           var b = c.point;
